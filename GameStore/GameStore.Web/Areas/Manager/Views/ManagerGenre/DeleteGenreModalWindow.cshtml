@@ -1,0 +1,15 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.DeleteGenreViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>@GlobalRes.DeleteGenre?</h4>
+    </div>
+    <div class="modal-body">
+        @using (Html.BeginForm("DeleteGenre", "ManagerGenre", FormMethod.Post))
+        {
+            <input type="hidden" value="@Model.Id" name="Id" />
+            <input type="submit" value="@GlobalRes.Delete" class="btn btn-info" />
+            <a href="/genres/@Model.Id" class="btn btn-info">@GlobalRes.Cancel</a>
+        }
+    </div>
+</div>

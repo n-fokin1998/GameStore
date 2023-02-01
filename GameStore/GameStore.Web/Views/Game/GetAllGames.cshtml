@@ -1,0 +1,94 @@
+﻿@using System.Threading
+@using GameStore.BusinessLogicLayer.Domain
+@using GameStore.BusinessLogicLayer.DTO
+@using GameStore.Web.ViewModels.Enums
+@using GameStore.Web.Helpers;
+@model GameStore.Web.ViewModels.CatalogViewModel
+
+@{
+    ViewBag.Title = GlobalRes.GameCatalog;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/catalog-styles.css")
+    @Styles.Render("~/Content/game-catalog-styles.css")
+    var genreNames = Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.Genres.Select(x => x.NameEn).ToList() : Model.Genres.Select(x => x.NameRu).ToList();
+    var platformNames = Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.PlatformTypes.Select(x => x.TypeEn).ToList() : Model.PlatformTypes.Select(x => x.TypeRu).ToList();
+}
+
+<div class="side game-side col-lg-3">
+    <form action="/games" method="post" id="filterForm" name="filterForm">
+        <input type="hidden" name="SortType" value="" />
+        <input type="hidden" name="Page" value="" />
+        <input type="hidden" name="ItemsPerPage" value="" />
+        <input type="hidden" name="CurrentPage" value="@Model.CurrentPage" />
+        <div class="filter">
+            <span class="font-weight-bold">@GlobalRes.GenreFilterGroupe:</span>
+            @Html.CreateList(Model.Genres.Select(x => x.Id), genreNames, "checkbox", "GenreFilters[]", Model.GenreFilters)
+        </div>
+        <div class="filter">
+            <span class="font-weight-bold">@GlobalRes.PlatformTypeFilterGroupe:</span>
+            @Html.CreateList(Model.PlatformTypes.Select(x => x.Id), platformNames, "checkbox", "PlatformTypeFilters[]", Model.PlatformTypeFilters)
+        </div>
+        <div class="filter">
+            <span class="font-weight-bold">@GlobalRes.PublisherFilterGroupe:</span>
+            @Html.CreateList(Model.Publishers.Select(x => x.Id), Model.Publishers.Select(x => x.CompanyName), "checkbox", "PublisherFilters[]", Model.PublisherFilters)
+        </div>
+        <div class="filter">
+            <span class="font-weight-bold">@GlobalRes.PriceFilterGroupe:</span><br /><br />
+            <input type="number" name="MinPrice" value="@Model.MinPrice" placeholder="@GlobalRes.PriceFilterGroupePlaceholderMin" class="form-control" />
+            <span> - </span>
+            <input type="number" name="MaxPrice" value="@Model.MaxPrice" placeholder="@GlobalRes.PriceFilterGroupePlaceholderMax" class="form-control" />
+        </div>
+        <div class="filter">
+            <span class="font-weight-bold">@GlobalRes.DateFilterGroupe:</span>
+            @Html.CreateList(new List<int>() { 0, 7, 31, 365, 730, 1095 }, new List<string>() { GlobalRes.DateFilterAll, GlobalRes.DateFilterWeek, GlobalRes.DateFilterMonth, GlobalRes.DateFilterYear, GlobalRes.DateFilterTwoYears, GlobalRes.DateFilterThreeYears }, "radio", "DateFilter", new int[] { (int)Model.DateFilter })
+        </div>
+        <div class="filter">
+            <span class="font-weight-bold">@GlobalRes.GameNameFilterGroupe:</span><br />
+            <span class="error-name">@GlobalRes.NameFilterValidation</span>
+            <input type="text" name="NameFilter" placeholder="@GlobalRes.GameNameFilterGroupePlaceholder" value="@Model.NameFilter" class="form-control" />
+        </div>
+        <div class="d-flex flex-row justify-content-around">
+            <div class=""><input type="submit" id="filterSubmit" value="@GlobalRes.FilterButton" class="custom-btn" /></div>
+            <div class=""><button class="side__filter-reset custom-btn">@GlobalRes.ResetFilterButton</button></div>
+        </div>
+    </form>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left">
+            <h2>@GlobalRes.Games</h2>
+            @if (Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GlobalRes.CreateGameLink, "CreateGame", new { controller = "ManagerGame", area = "Manager" })
+            }
+        </div>
+        <div class="page-head__content float-right">
+            <span class="page-head__content--game">@GlobalRes.ItemsPerPage: </span>@Html.DropDownList("ItemsPerPage", EnumHelper.GetSelectList(typeof(ItemsPerPageViewModel)), new { @class = "custom-select" })
+            <span class="page-head__content--game">@GlobalRes.SortBy: </span>@Html.DropDownList("SortType", EnumHelper.GetSelectList(typeof(SortTypeViewModel)), new { @class = "custom-select" })
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @foreach (GameDTO game in Model.Games)
+    {
+        <a href="/games/@game.Key" class="font-weight-bold">
+            <div class="content__product">
+                <span class="content__product__title">@(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? game.NameEn : game.NameRu)</span>
+                <div class="content__product__buy">
+                    @using (Html.BeginForm("BuyProduct", "Basket", FormMethod.Get))
+                    {
+                        <input type="hidden" name="gamekey" value="@game.Key" />
+                        <input type="submit" value="@GlobalRes.BuyButton" class="custom-btn" />
+                    }
+                </div>
+            </div>
+        </a>
+    }
+    <div class="btn-group">
+        @Html.PageLinks((PageInfo)ViewBag.PageInfo)
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/catalog-script.js")
+}

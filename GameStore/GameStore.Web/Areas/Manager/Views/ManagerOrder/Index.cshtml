@@ -1,0 +1,61 @@
+﻿@using GameStore.BusinessLogicLayer.DTO
+@model IEnumerable<OrderDTO>
+
+@{
+    ViewBag.Title = GlobalRes.OrderManagement;
+    @Styles.Render("~/Content/order-history-styles.css")
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.OrderManagement</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @foreach (OrderDTO order in Model)
+    {
+        <div class="order">
+            <div class="float-left">
+                <img src="~/Content/Images/tick.png" width="25" height="30"/> <span class="span--ok">@GlobalRes.Paid</span><br/>
+                @if (order.ShippedDate != null)
+                {
+                    <img src="~/Content/Images/tick.png" width="25" height="30"/>
+                    <span class="span--ok">@GlobalRes.Shipped</span><br/>
+                }
+                <span class="font-weight-bold">Id: </span>@order.Id<br/>
+                <span class="font-weight-bold">@GlobalRes.CustomerId: </span>@order.CustomerId<br/>
+                <span class="font-weight-bold">@GlobalRes.ShipperId: </span>@order.ShipperId<br/>
+                <span class="font-weight-bold">@GlobalRes.Date: </span> @order.Date<br/>
+                @if (order.ShippedDate != null)
+                {
+                    <span class="font-weight-bold">@GlobalRes.ShippedDate: </span>
+                    @order.ShippedDate<br/>
+                }
+                else
+                {
+                    using (Html.BeginForm("ChangeShippedStatus", "ManagerOrder", FormMethod.Post))
+                    {
+                        <input type="hidden" name="orderId" value="@order.Id"/>
+                        <span class="font-weight-bold">@GlobalRes.ShippedDate: </span>
+                        <input type="date" name="shippedDate"/>
+                        <input type="submit" value="@GlobalRes.Save"/><br/>
+                    }
+                }               
+            </div>
+            <div class="float-right">@Html.ActionLink(GlobalRes.OrderDetails, "OrderDetails", new { controller = "ManagerOrder", id = order.Id }, new { @class = "text-underline base-color" })</div>
+            <div class="clearfix"></div>
+        </div><br/>
+    }
+    @if (!Model.Any())
+    {
+        <span>@GlobalRes.NoItems</span>
+    }
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/order-script.js")
+}

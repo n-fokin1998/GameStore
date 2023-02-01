@@ -1,0 +1,24 @@
+﻿@using GameStore.Web.ViewModels.Enums
+@model GameStore.Web.Areas.Moderator.ViewModels.BanCommentViewModel
+
+@{
+    ViewBag.Title = GlobalRes.BanComment;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.BanComment</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @using (Html.BeginForm("BanComment", "ModeratorComment"))
+    {
+        @Html.HiddenFor(Model => Model.Id)
+        @Html.HiddenFor(Model => Model.GameKey)
+        @Html.LabelFor(Model => Model.Duration)<br />
+        @Html.DropDownListFor(Model => Model.Duration, EnumHelper.GetSelectList(typeof(BanDurationViewModel)), new { @class = "custom-select" })<br /><br />
+        <input type="submit" value="@GlobalRes.Ban" class="custom-btn" />
+    }
+</div>
+<div class="side col-lg-3"></div>

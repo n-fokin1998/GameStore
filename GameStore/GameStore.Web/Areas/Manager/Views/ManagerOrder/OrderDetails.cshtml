@@ -1,0 +1,47 @@
+﻿@using GameStore.BusinessLogicLayer.DTO
+@model OrderDTO
+
+@{
+    ViewBag.Title = GlobalRes.OrderDetails;
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.OrderDetails</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <span class="font-weight-bold">Id: </span>@Model.Id<br /><br />
+    <span class="font-weight-bold">@GlobalRes.CustomerId: </span> @Model.CustomerId<br /><br />
+    <span class="font-weight-bold">@GlobalRes.ShipperId: </span> @Model.ShipperId<br /><br />
+    <span class="font-weight-bold">@GlobalRes.Date: </span> @Model.Date<br /><br />
+    @if (Model.OrderDetails != null && Model.OrderDetails.Count != 0)
+    {
+        <span class="font-weight-bold">@GlobalRes.OrderDetails:</span><br />
+        <ul>
+            @foreach (OrderDetailsDTO od in Model.OrderDetails)
+            {
+                <span class="font-weight-bold">@GlobalRes.GameId: </span>@od.GameId
+                <br />
+                <span class="font-weight-bold">@GlobalRes.Quantity: </span>@od.Quantity
+                <br />
+                <span class="font-weight-bold">@GlobalRes.Price: </span>@od.Price.ToString("0.00")
+                <br />
+                @Html.ActionLink(GlobalRes.Edit, "EditOrderDetail", new { controller = "ManagerOrder", id = od.Id }, new { @class = "text-underline base-color" })
+                <text>&nbsp;</text>
+                @Html.ActionLink(GlobalRes.Delete, "DeleteOrderDetail", new { controller = "ManagerOrder", id = od.Id }, new { @class = "link-order-details--delete text-underline base-color" })
+                <br />
+                <br />
+            }
+        </ul>
+    }
+    <br />
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/order-script.js")
+}

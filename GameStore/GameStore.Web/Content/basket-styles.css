@@ -1,0 +1,42 @@
+﻿table {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 18px;
+}
+td {
+    border: 1px solid #8fbe00;
+    padding: 10px 0;
+}
+
+thead tr, .void {
+    background-color: #f0f0f0;
+}
+
+thead td:last-child {
+    width: 50px;
+}
+
+tbody {
+    font-size: 15px;
+}
+
+tbody td {
+    border-right-style: dashed;
+    border-left: none;
+}
+
+tbody td:first-child {
+    border-left: 1px solid #8fbe00;
+}
+
+tbody td:last-child {
+    border-right: 1px solid #8fbe00;
+}
+tfoot td:last-child {
+    width: 150px;
+}
+table .custom-btn {
+    color: #fff !important;
+}

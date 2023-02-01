@@ -1,0 +1,16 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.Order.DeleteOrderDetailViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>@GlobalRes.DeleteOrderDetails?</h4>
+    </div>
+    <div class="modal-body">
+        @using (Html.BeginForm("DeleteOrderDetail", "ManagerOrder", FormMethod.Post))
+        {
+            <input type="hidden" value="@Model.Id" name="Id" />
+            <input type="hidden" value="@Model.OrderId" name="OrderId" />
+            <input type="submit" value="@GlobalRes.Delete" class="btn btn-info" />
+            <a href="/orders/@Model.OrderId" class="btn btn-info">@GlobalRes.Cancel</a>
+        }
+    </div>
+</div>

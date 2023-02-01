@@ -1,0 +1,19 @@
+﻿@model GameStore.BusinessLogicLayer.DTO.UserDTO
+
+@if (Model != null)
+{
+    if (Model.InRoles("Administrator"))
+    {
+        <span class="font-weight-bold text-underline">@Html.ActionLink(GlobalRes.AdminPanel, "Index", new { controller = "Admin", area = "Admin" })</span>
+    }
+    else
+    {
+        @GlobalRes.Hello @Model.Email
+    }
+    @Html.ActionLink(GlobalRes.LogOut, "Logout", new { controller = "Account" }, new { @class = "btn btn-success btn-login btn-sm" })
+}
+else
+{
+    @Html.ActionLink(GlobalRes.LogIn, "Login", new { controller = "Account" }, new { @class = "btn btn-success btn-login btn-sm" })
+    @Html.ActionLink(GlobalRes.Register, "Register", new { controller = "Account" }, new { @class = "btn btn-success btn-login btn-sm" })
+}

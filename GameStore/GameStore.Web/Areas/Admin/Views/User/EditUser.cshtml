@@ -1,0 +1,27 @@
+﻿@model GameStore.Web.Areas.Admin.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Edit;
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Edit @Model.Email</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-4">
+        <div class="col-lg-4">
+            @using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { @class = "form-group" }))
+            {
+                @Html.HiddenFor(Model => Model.Id)
+                <span>@GlobalRes.UserName: </span> @Model.Name<br /><br />
+                <span>Email: </span> @Model.Email<br /><br />
+                @Html.LabelFor(Model => Model.Roles)<br />
+                @Html.ListBox("Roles", Model.RolesList as MultiSelectList, new { @class = "custom-select" })<br /><br />
+                <input type="submit" value="@GlobalRes.Edit" class="custom-btn" />
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>

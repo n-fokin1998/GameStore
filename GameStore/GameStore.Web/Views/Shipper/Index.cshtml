@@ -1,0 +1,25 @@
+﻿@using GameStore.BusinessLogicLayer.DTO
+@model IEnumerable<ShipperDTO>
+
+@{
+    ViewBag.Title = GlobalRes.NavShippers;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/order-history-styles.css")
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.NavShippers</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @foreach (ShipperDTO shipper in Model)
+    {
+        <div class="shipper">
+            <span class="font-weight-bold">@GlobalRes.ShipperId: </span>@shipper.ShipperId<br />
+            <span class="font-weight-bold">@GlobalRes.CompanyName: </span>@shipper.CompanyName<br />
+            <span class="font-weight-bold">@GlobalRes.Phone: </span>@shipper.Phone<br />
+        </div><br />
+    }
+</div>
+<div class="side col-lg-3"></div>

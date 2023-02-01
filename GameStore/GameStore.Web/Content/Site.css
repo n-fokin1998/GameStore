@@ -1,0 +1,217 @@
+﻿a {
+    color: #000;
+    font-family: 'Arial';
+    font-size: 15px;
+}
+a:hover {
+    text-decoration: none;
+    color: #ff8000;
+    cursor: pointer;
+}
+.top-block .site-title a, .base-color {
+    color: #ff8000;
+}
+    .top-block .site-title a:hover {
+        text-decoration: none;
+    }
+
+.top-block .btn-login {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 0 25px;
+}
+
+.top-block .jumbotron {
+    background-color: #6094DB;
+    margin-top: 10px;
+    padding: 40px;
+}
+
+.top-block .btn-success {
+    background: linear-gradient(to top, #73940F, #87BC00);
+}
+
+.top-block .btn-outline-warning {
+    font-weight: bold;
+    font-size: 15px;
+    padding: 10px 30px;
+    border-color: #ccc;
+    background: rgba(255, 255, 255, 0.95);
+}
+.top-block > .jumbotron .btn-group {
+    position: absolute;
+    top: -25px;
+    right: 20px;
+}
+.row__footer-blocks {
+    margin-top: 40px;
+}
+.row__footer-blocks .jumbotron {
+    height: 390px;
+}
+    .row__footer-blocks .jumbotron input[type='submit'] {
+        width: 150px;
+        margin-top: 10px;
+    }
+.jumbotron.get-in-touch {
+    background-color: #EAEFD8;
+}
+.jumbotron.twitter-updates {
+    background-color: #DFEDF0;
+}
+.jumbotron.from-blog {
+    background-color: #F0EEE2;
+}
+.tweet, .blog-post {
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 10px;
+}
+    .tweet p {
+        color: #519FCF;
+        font-weight: bold;
+    }
+    .tweet small {
+        color: grey;
+    }
+.twitter-updates .container, .from-blog .container {
+    height: 300px;
+    overflow-y: hidden;
+    margin-bottom: 5px;
+}
+.twitter-updates a, .from-blog a {
+    text-align: center;
+    color: #fff !important;
+    width: 150px;
+}
+.blog-post {
+    color: goldenrod;
+    margin-bottom: 20px;
+}
+.blog-post:last-of-type {
+    margin-bottom: 8px;
+}
+.footer__links {
+    margin-top: 20px;
+}
+.footer__links a, .footer__copyright {
+    color: grey;
+}
+footer .horizontal-line {
+    margin-top: 0;
+}
+.footer-block__header {
+    position: absolute;
+    top: -40px;
+    left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: Arial;
+}
+.horizontal-line {
+    border-top: 2px solid #ccc;
+    height: 0;
+    width: 100%;
+    margin: auto;
+    margin-top: 20px;
+}
+.custom-select {
+    width: initial;
+}
+.custom-btn {
+    display: inline-block;
+    color: #fff;
+    background-color: #fcb03f;
+    padding: 0 10px;
+    border: 2px solid #e89721;
+    border-radius: 10px;
+    outline: none;
+}
+.custom-btn:hover {
+    cursor: pointer;
+    color: #fff;
+}
+.form-control {
+    display: inline-block;
+}
+.form-control:focus {
+    border-color: #ccc;
+    box-shadow: none;
+}
+.main {
+    padding: 30px;
+    padding-top: 0;
+}
+.side {
+    padding: 10px;
+    border-left: 1px solid #ccc;
+}
+.side ul {
+    margin: 10px;
+    padding: 0;
+    list-style: none;
+}
+.page-head__content {
+    padding-top: 10px;
+}
+.jumbotron.no-image {
+    padding: 0;
+    width: 400px;
+    height: 280px;
+    margin: auto;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    text-align: center;
+}
+.field-validation-error {
+    color: red;
+}
+.text-underline {
+    text-decoration: underline;
+}
+.page-head__content a {
+    font-size: 20px;
+    color: #ff8000;
+    text-decoration: underline;
+}
+.page-head__title a {
+    color: #ff8000;
+    text-decoration: underline;
+}
+.custom-toggle {
+    display: inline-block;
+    vertical-align: top;
+}
+@media screen and (max-device-width: 990px) {
+    #topMenu {
+        position: initial;
+        flex-direction: column;
+    }
+    .side {
+        border: none;
+    }
+    .page-head__title, .page-head__content {
+        float: none !important;
+    }
+}
+@media screen and (max-device-width: 680px) {
+    #topMenu {
+        width: 100%;
+    }
+    .site-logo {
+        display: none;
+    }
+}
+@media screen and (max-device-width: 370px) {
+    .site-links div {
+        float: none !important;
+    }
+}
+@media screen and (min-device-width: 990px) {
+    .custom-toggle {
+        display: none;
+    }
+    #topMenu {
+        display: inline-flex;
+    }
+}

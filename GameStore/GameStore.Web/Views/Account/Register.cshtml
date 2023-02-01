@@ -1,0 +1,39 @@
+﻿@model GameStore.Web.ViewModels.Account.RegisterViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Register;
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Register</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-4">
+        <div class="col-lg-4">
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-group" }))
+            {
+                @Html.LabelFor(Model => Model.Name)<br />
+                @Html.EditorFor(Model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Name)<br /><br />
+                @Html.LabelFor(Model => Model.Email)<br />
+                @Html.EditorFor(Model => Model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Email)<br /><br />
+                @Html.LabelFor(Model => Model.Password)<br />
+                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Password)<br /><br />
+                @Html.LabelFor(Model => Model.ConfirmPassword)<br />
+                @Html.EditorFor(Model => Model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.ConfirmPassword)<br /><br />
+                if (Context.User.IsInRole("Administrator"))
+                {
+                    <span>Roles: </span><br/>
+                    @Html.ListBox("Roles", Model.RolesList as MultiSelectList, new { @class = "custom-select" })<br /><br />
+                }
+                <input type="submit" value="@GlobalRes.Register" class="custom-btn" />
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>

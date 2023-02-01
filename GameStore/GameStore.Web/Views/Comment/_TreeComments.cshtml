@@ -1,0 +1,59 @@
+﻿@using GameStore.Web.ViewModels
+@model CommentViewModel
+
+@if (!Model.Comments.Any())
+{
+    <span>@GlobalRes.NoItems</span><br /><br />
+}
+@if (Model.Comments.Any(x => x.ParentCommentId == Model.Seed))
+{
+    <ul>
+        @foreach (var node in Model.Comments)
+        {
+            if (node.ParentCommentId == Model.Seed)
+            {
+                var deleted = node.IsDeleted ? "1" : "0";
+                <input type="hidden" class="quote-id" value="@node.QuoteCommentId" />
+                <span class="font-weight-bold">@GlobalRes.Author: </span>@node.Name
+                <br />
+                <span class="font-weight-bold">@GlobalRes.Comment: </span>
+                if (node.IsDeleted)
+                {
+                    <input type="hidden" class="comment-hidden-body" data-id-for-qoute="@node.Id" data-deleted="@deleted" value="@GlobalRes.CommentWasDeleted">
+                    <img src="~/Content/Images/trash.png" width="25" height="25" />
+                    <span class="span--comment-body"> @GlobalRes.CommentWasDeleted</span><br />
+                    if (!Context.User.IsInRole("Administrator, Manager") && !Model.IsGameDeleted)
+                    {
+                        <a class="link-comment link-comment--reply" data-id="@node.Id" data-name="@node.Name">@GlobalRes.Reply</a>
+                        <a class="link-comment link-comment--quote" data-parentid="@node.Id" data-body="@GlobalRes.CommentWasDeleted" data-deleted="@deleted">@GlobalRes.Quote</a>
+                    }
+                }
+                else
+                { 
+                    <input type="hidden" class="comment-hidden-body" data-id-for-qoute="@node.Id" value="@node.Body">
+                    <span class="span--comment-body"> @node.Body</span><br />
+                    if (!Context.User.IsInRole("Administrator, Manager") && !Model.IsGameDeleted)
+                    {
+                        <a class="link-comment link-comment--reply" data-id="@node.Id" data-name="@node.Name">@GlobalRes.Reply</a>
+                        <a class="link-comment link-comment--quote" data-parentid="@node.Id" data-body="@node.Body" data-deleted="@deleted">@GlobalRes.Quote</a>
+                    }
+                }
+                if (Context.User.IsInRole("Moderator") && !node.IsDeleted)
+                {
+                    @Html.ActionLink(GlobalRes.Delete, "DeleteComment", new { id = node.Id, gameKey = Model.Game.Key, controller = "ModeratorComment", area = "Moderator" }, new { @class = "link-comment link-comment--delete" })<text>&nbsp;</text>
+                    @Html.ActionLink(GlobalRes.Ban, "BanComment", new { id = node.Id, gameKey = Model.Game.Key, controller = "ModeratorComment", area = "Moderator" }, new { @class = "link-comment link-comment--ban" })
+                }
+                <br />
+                <br />
+                CommentViewModel inner = new CommentViewModel
+                {
+                    Seed = node.Id,
+                    Comments = Model.Comments,
+                    Game = Model.Game,
+                    IsGameDeleted = Model.IsGameDeleted
+                };
+                @Html.Partial("_TreeComments", inner)
+            }
+        }
+    </ul>
+}

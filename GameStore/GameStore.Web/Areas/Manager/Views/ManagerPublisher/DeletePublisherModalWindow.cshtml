@@ -1,0 +1,15 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.DeletePublisherViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>@GlobalRes.DeletePublisher?</h4>
+    </div>
+    <div class="modal-body">
+        @using (Html.BeginForm("DeletePublisher", "ManagerPublisher", FormMethod.Post))
+        {
+            <input type="hidden" value="@Model.CompanyName" name="CompanyName" />
+            <input type="submit" value="@GlobalRes.Delete" class="btn btn-info" />
+            <a href="/publishers/@Model.CompanyName" class="btn btn-info">@GlobalRes.Cancel</a>
+        }
+    </div>
+</div>

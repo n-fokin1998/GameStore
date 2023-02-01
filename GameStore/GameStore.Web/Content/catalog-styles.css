@@ -1,0 +1,95 @@
+﻿.content__product__buy .custom-btn {
+    width: 80px;
+}
+.content__product {
+    width: 100%;
+    height: 70px;
+    border: 1px solid #e89721;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+    .content__product::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+.content__product__title {
+    display: block;
+    margin: 20px 20px;
+    float: left;
+    font-size: 16px;
+}
+
+.buy-game {
+    float: right;
+    margin: 20px 20px;
+}
+
+label {
+    font-weight: normal;
+}
+
+    label:hover, input[type='checkbox']:hover {
+        cursor: pointer;
+    }
+
+.filter {
+    margin-left: 20px;
+}
+
+input[type='number'] {
+    width: 70px;
+    margin-bottom: 10px;
+}
+
+select[name='ItemsPerPage'] {
+    margin-right: 20px;
+}
+
+input[type='checkbox'], input[type='radio'] {
+    margin-right: 5px;
+}
+
+.content .btn-group {
+    margin-top: 20px !important;
+    margin-left: 50% !important;
+}
+
+.error-name {
+    display: block;
+    visibility: hidden;
+    font-weight: normal;
+    color: red;
+}
+
+.content__product__buy {
+    float: right;
+    margin: 20px 20px;
+}
+
+.side .d-flex {
+    margin-top: 20px;
+}
+@media screen and (max-device-width: 990px) {
+    .filter {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .game-side {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+    }
+    .page-head__content--game {
+        display: block;
+    }
+}
+@media screen and (max-device-width: 680px) {
+    .content__product {
+        height: initial;
+    }
+    .content__product__title, .content__product__buy {
+        float: none;
+    }
+}

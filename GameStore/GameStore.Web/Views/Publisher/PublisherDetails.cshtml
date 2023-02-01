@@ -1,0 +1,51 @@
+﻿@using System.Threading
+@using GameStore.BusinessLogicLayer.DTO;
+@model PublisherDTO
+
+@{
+    ViewBag.Title = GlobalRes.PublisherDetails;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var description = Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.DescriptionEn : Model.DescriptionRu;
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.PublisherDetails</h2></div>
+        <div class="page-head__content float-right">
+            @if (Context.User.IsInRole("Manager") || (Context.User.IsInRole("Publisher") && Context.User.Identity.Name == Model.CompanyName))
+            {
+                @Html.ActionLink(GlobalRes.Edit, "EditPublisher", new { companyName = Model.CompanyName, controller = "ManagerPublisher", area = "Manager" }, new { @class = "link-publisher--edit" })
+            }
+            @if (Context.User.IsInRole("Manager"))
+            {
+                <text>|</text> @Html.ActionLink(GlobalRes.Delete, "DeletePublisher", new { companyName = Model.CompanyName, controller = "ManagerPublisher", area = "Manager" }, new { @class = "link-publisher--delete" })
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-4">
+        <div class="col-lg-6">
+            <span class="font-weight-bold">Id: </span>@Model.Id<br /><br />
+            <span class="font-weight-bold">@GlobalRes.CompanyName: </span>@Model.CompanyName<br /><br />
+            <span class="font-weight-bold">@GlobalRes.Description: </span>@description<br /><br />
+            <span class="font-weight-bold">@GlobalRes.HomePage: </span>@Model.HomePage<br /><br />
+            <span class="font-weight-bold">@GlobalRes.Games:</span><br />
+            @foreach (GameDTO game in Model.Games)
+            {
+                @game.NameEn<br />
+            }
+        </div>
+        <div class="col-lg-6">
+            <div class="jumbotron no-image"><img src="~/Content/Images/no-image.png" width="280" height="280" /></div>
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/publisher-script.js")
+}

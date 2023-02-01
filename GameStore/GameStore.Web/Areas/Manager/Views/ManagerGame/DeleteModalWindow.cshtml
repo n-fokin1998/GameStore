@@ -1,0 +1,15 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.DeleteGameViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>@GlobalRes.DeleteGame?</h4>
+    </div>
+    <div class="modal-body">
+        @using (Html.BeginForm("DeleteGame", "ManagerGame", FormMethod.Post))
+        {
+            <input type="hidden" value="@Model.GameKey" name="GameKey" />
+            <input type="submit" value="@GlobalRes.Delete" class="btn btn-info" />
+            <a href="/games/@Model.GameKey/" class="btn btn-info">@GlobalRes.Cancel</a>
+        }
+    </div>
+</div>

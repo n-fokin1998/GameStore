@@ -1,0 +1,72 @@
+﻿@using GameStore.BusinessLogicLayer.DTO
+@model GameStore.Web.ViewModels.PaymentViewModel
+
+@{
+    ViewBag.Title = GlobalRes.NewOrder;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/basket-styles.css")
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog">@Html.Partial("ConfirmOrder")</div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.NewOrder</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @if (Model.IsFailed)
+    {
+        <span class="span--error">@GlobalRes.OrderError</span><br />
+    }
+    <span class="font-weight-bold">@GlobalRes.CustomerId: </span>@Model.AccountNumber<br /><br />
+    <span class="font-weight-bold">@GlobalRes.Date: </span>@Model.Date.ToShortDateString()<br /><br />
+    <span class="font-weight-bold">@GlobalRes.Shipper: </span> @Html.DropDownList("ShipperId", Model.ShippersList as SelectList, new { @class = "custom-select" })<br /><br />
+    <span class="font-weight-bold" id="test">@GlobalRes.Products:</span><br />
+    @if (Model.OrderDetails.Count() != 0)
+    {
+        foreach (OrderDetailsDTO line in Model.OrderDetails)
+        {
+            @line.GameName<br />
+        }
+        <br />
+        <span class="font-weight-bold">@GlobalRes.PaymentMethod:</span>
+        <br />
+        <form class="form--pay-order">
+            @Html.HiddenFor(Model => Model.AccountNumber)
+            @Html.HiddenFor(Model => Model.Sum)
+            @Html.HiddenFor(Model => Model.PaymentType)
+            <input type="hidden" name="ShipperId" id="HiddenShipperId">
+            <table border="1">
+                <tr>
+                    <td><img src="~/Content/Images/PaymentMethods/bank.png" alt="bank" width="110" height="80" /></td>
+                    <td class="font-weight-bold p-2">@GlobalRes.Bank</td>
+                    <td>@GlobalRes.BankDescription</td>
+                    <td class="p-2"><a class="link-pay--bank custom-btn">@GlobalRes.Pay</a></td>
+                </tr>
+                <tr>
+                    <td><img src="~/Content/Images/PaymentMethods/ibox.png" alt="ibox" width="110" height="60" /></td>
+                    <td class="font-weight-bold">IBox</td>
+                    <td>@GlobalRes.IBxoDescription</td>
+                    <td><a class="link-pay--ibox custom-btn">@GlobalRes.Pay</a></td>
+                </tr>
+                <tr>
+                    <td><img src="~/Content/Images/PaymentMethods/visa.png" alt="bank" width="110" height="50" /></td>
+                    <td class="font-weight-bold">Visa</td>
+                    <td>@GlobalRes.VisaDescription</td>
+                    <td><a class="link-pay--visa custom-btn">@GlobalRes.Pay</a></td>
+                </tr>
+            </table>
+        </form>
+    }
+    else
+    {
+        <span>@GlobalRes.NoItems</span>
+    }
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/payment-script.js")
+}

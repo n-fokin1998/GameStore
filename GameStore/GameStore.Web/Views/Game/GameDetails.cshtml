@@ -1,0 +1,103 @@
+﻿@using System.Threading
+@model GameStore.Web.ViewModels.GameViewModel
+
+@{
+    ViewBag.Title = GlobalRes.GameDetails;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/game-styles.css")
+    var discontinued = Model.Discontinued ? GlobalRes.Yes : GlobalRes.No;
+    var name = Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.NameEn : Model.NameRu;
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.GameDetails</h2></div>
+        <div class="page-head__content float-right">
+            @if (!Model.IsDeleted)
+            {
+                if (Context.User.IsInRole("Manager") || (Context.User.IsInRole("Publisher") && Context.User.Identity.Name == Model.Publisher?.CompanyName))
+                {
+                    @Html.ActionLink(GlobalRes.Edit, "EditGame", new { key = Model.Key, controller = "ManagerGame", area = "Manager" }, new { @class = "link-game--edit" })
+                }
+                if (Context.User.IsInRole("Manager"))
+                {
+                    <text>|</text>
+                    @Html.ActionLink(GlobalRes.Delete, "DeleteGame", new { key = Model.Key, controller = "ManagerGame", area = "Manager" }, new { @class = "link-game--delete" })
+                }
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-4">
+        <div class="col-lg-6">
+            @if (!Model.IsDeleted)
+            {
+                <span>@Html.ActionLink(GlobalRes.Download, "DownloadGame", new {key = @Model.Key}, new {target = "_blank", @class = "custom-btn"})</span><br/><br/>
+            }
+            <span class="font-weight-bold">Id: </span>@Model.Id<br/><br/>
+            <span class="font-weight-bold">@GlobalRes.Key: </span>@Model.Key<br/><br/>
+            <span class="font-weight-bold">@GlobalRes.Name: </span>@name<br/><br/>
+            <span class="font-weight-bold">@GlobalRes.Description: </span>@Model.Description<br/><br/>
+            <span class="font-weight-bold">@GlobalRes.Price: $</span>@Model.Price.ToString("0.00")<br/><br/>
+            <span class="font-weight-bold">@GlobalRes.UnitsInStock: </span>@Model.UnitsInStock<br/><br/>
+            <span class="font-weight-bold">@GlobalRes.Discontinued: </span>@discontinued<br/><br/>
+            <span class="font-weight-bold">@GlobalRes.PublishDate: </span>@Model.PublishDate<br/><br/>
+            @if (Model.Publisher != null)
+            {
+                <span class="font-weight-bold">@GlobalRes.Publisher: </span>@Html.ActionLink(Model.Publisher.CompanyName, "PublisherDetails", new {controller = "Publisher", Model.Publisher.CompanyName}, new {@class = "base-color"})<br/><br/>
+            }
+            else
+            {
+                <span class="font-weight-bold">@GlobalRes.Publisher: @GlobalRes.Unknown</span><br/><br/>
+            }
+            <span class="font-weight-bold">@GlobalRes.NavGenres:</span><br/>
+            @foreach (string genre in Model.GenreNames)
+            {
+                @genre<br/>
+            }
+            <br/>
+            <span class="font-weight-bold">@GlobalRes.NavPlatformTypes:</span>
+            @if (Model.PlatformNames.Count != 0)
+            {
+                <br/>
+                foreach (string platform in Model.PlatformNames)
+                {
+                    @platform<br/>
+                }
+            }
+            else
+            {
+                <text>-</text>
+            }
+            <br/><br/>
+            <span class="font-weight-bold">@Html.ActionLink(GlobalRes.Comments, "GetCommentsByGameKey", new {controller = "Comment", key = Model.Key}, new {@class = "custom-btn btn-lg"})</span><br/><br/>
+        </div>
+        <div class="col-lg-6">
+            <div class="jumbotron no-image">
+                @if (Model.ImageReference == null)
+                {
+                    <img src="~/Content/Images/no-image.png" width="280" height="280" />
+                }
+                else
+                {
+                    @*<img src="@Url.Action("RenderImage", "Game", new { key = Model.Key })" width="400" height="280" />*@
+                    @*<img src="@Url.Action("RenderImageAsync", "Game", new { key = Model.Key })" width="400" height="280" />*@
+                    <img src="/handler/image?path=@Model.ImageReference" width="400" height="280" />
+                }
+            </div>
+            @if (!Model.IsDeleted)
+            {
+                <span class="buy-btn">@Html.ActionLink(GlobalRes.BuyButton, "BuyProduct", new {controller = "Basket", gamekey = Model.Key}, new {@class = "custom-btn"})</span>
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/game-script.js")
+}

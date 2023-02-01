@@ -1,0 +1,32 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.Order.UpdateOrderDetailViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Edit;
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Edit</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-3">
+        <div class="col-lg-4">
+            @using (Html.BeginForm("EditOrderDetail", "ManagerOrder", FormMethod.Post))
+            {
+                <span class="font-weight-bold">@GlobalRes.GameName: </span> @Model.GameName<br /><br />
+                @Html.HiddenFor(Model => Model.Id)
+                @Html.HiddenFor(Model => Model.GameId)
+                @Html.HiddenFor(Model => Model.GameName)
+                @Html.HiddenFor(Model => Model.Price)
+                @Html.HiddenFor(Model => Model.OrderId)
+                @Html.HiddenFor(Model => Model.Discount)
+                @Html.LabelFor(Model => Model.Quantity)<br />
+                @Html.EditorFor(Model => Model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Quantity)<br /><br />
+                <input type="submit" value="@GlobalRes.Edit" class="custom-btn" />
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>

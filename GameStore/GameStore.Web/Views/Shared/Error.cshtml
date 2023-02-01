@@ -1,0 +1,19 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Error occured";
+}
+
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+@Styles.Render("~/Content/css")
+<div id="errorModDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog">@Html.Partial("_ErrorData")</div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        alert("sdfsd");
+        $('#errorModDialog').modal('show');
+    });
+</script>

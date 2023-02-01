@@ -1,0 +1,27 @@
+@using System.Threading
+@using GameStore.Web.ViewModels
+@model GenreListViewModel
+
+@if (Model.Genres.Any(x => x.ParentGenreId == Model.Seed))
+{
+    <ul>
+        @foreach (var node in Model.Genres)
+        {
+            if (node.ParentGenreId == Model.Seed)
+            {
+                <a href="/genres/@node.Id">
+                    <span class="base-color genre-title font-weight-bold">
+                        @(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? node.NameEn : node.NameRu)
+                    </span>
+                </a>
+                <br />
+                var inner = new GenreListViewModel
+                {
+                    Seed = node.Id,
+                    Genres = Model.Genres
+                };
+                @Html.Partial("_TreeGenres", inner)
+            }
+        }
+    </ul>
+}

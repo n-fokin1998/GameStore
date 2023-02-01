@@ -1,0 +1,32 @@
+﻿@using System.Threading
+@using GameStore.BusinessLogicLayer.DTO
+@model IEnumerable<PlatformTypeDTO>
+
+@{
+    ViewBag.Title = GlobalRes.NavPlatformTypes;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/catalog-styles.css")
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.NavPlatformTypes</h2></div>
+        <div class="page-head__content float-right">
+            @if (Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GlobalRes.CreatePlatformType, "CreatePlatformType", new { controller = "ManagerPlatformType", area = "Manager" })
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @foreach (PlatformTypeDTO platformType in Model)
+    {
+        <a href="/PlatformType/PlatformTypeDetails/@platformType.Id">
+            <div class="content__product">
+                <span class="content__product__title font-weight-bold">@(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? platformType.TypeEn : platformType.TypeRu)</span>
+            </div>
+        </a>
+    }
+</div>
+<div class="side col-lg-3"></div>

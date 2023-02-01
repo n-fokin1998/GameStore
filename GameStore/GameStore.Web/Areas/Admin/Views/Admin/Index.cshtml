@@ -1,0 +1,30 @@
+﻿@using GameStore.BusinessLogicLayer.DTO
+@model GameStore.Web.Areas.Admin.ViewModels.AdminPanelViewModel
+
+@{
+    ViewBag.Title = GlobalRes.AdminPanel;
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.AdminPanel</h2></div>
+        <div class="page-head__content float-right">
+            @Html.ActionLink(GlobalRes.RegisterUser, "Register", new { controller = "Account", area = "" }, new { @class = "link-admin--register-user" }) |
+            @Html.ActionLink(GlobalRes.CreateRole, "CreateRole", new { controller = "Role", area = "Admin" }, new { @class = "link-admin--create-role" })
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <span class="font-weight-bold">Users:</span><br /><br />
+    @foreach (UserDTO user in Model.Users)
+    {
+        <a href="User/UserDetails/@user.Id"><span>@user.Name</span></a><br />
+    }
+    <br />
+    <span class="font-weight-bold">Roles:</span><br /><br />
+    @foreach (RoleDTO role in Model.Roles)
+    {
+        <a href="Role/RoleDetails/@role.Id"><span>@role.Name</span></a><br />
+    }
+</div>
+<div class="side col-lg-3"></div>

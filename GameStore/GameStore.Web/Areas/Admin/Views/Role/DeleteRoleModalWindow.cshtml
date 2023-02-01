@@ -1,0 +1,15 @@
+﻿@model GameStore.Web.Areas.Admin.ViewModels.DeleteViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>@GlobalRes.DeleteRole?</h4>
+    </div>
+    <div class="modal-body">
+        @using (Html.BeginForm("DeleteRole", "Role", FormMethod.Post))
+        {
+            <input type="hidden" value="@Model.Id" name="Id" />
+            <input type="submit" value="@GlobalRes.Delete" class="btn btn-info" />
+            @Html.ActionLink(GlobalRes.Cancel, "RoleDetails", new { id = Model.Id, controller = "Role", area = "Admin" }, new { @class = "btn btn-info" })
+        }
+    </div>
+</div>

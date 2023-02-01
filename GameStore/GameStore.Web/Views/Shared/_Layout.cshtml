@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    @if (Context.Session["ErrorMessage"] != null)
+    {
+        <div id="errorModDialog" class="modal fade">
+            <div id="dialogContent" class="modal-dialog">@Html.Partial("_ErrorData")</div>
+        </div>
+    }
+    <header>
+        <div class="container-fluid p-3 site-links">
+            <div class="float-left">
+                <a href="" class="font-weight-bold">@GlobalRes.AboutUs</a> |
+                <a href="" class="font-weight-bold">@GlobalRes.Awards</a> |
+                <a href="" class="font-weight-bold">@GlobalRes.Reviews</a> |
+                <a href="" class="font-weight-bold">@GlobalRes.Contacts</a>
+            </div>
+            <div class="float-right">
+                @Html.ActionLink("EN", "ChangeLanguage", new { lang = "en", url = ViewContext.HttpContext.Request.Url.AbsoluteUri, controller = "Base", area = "" })
+                | @Html.ActionLink("RU", "ChangeLanguage", new { lang = "ru", url = ViewContext.HttpContext.Request.Url.AbsoluteUri, controller = "Base", area = "" })
+            </div>
+        </div>
+    </header>
+    <div class="horizontal-line"></div>
+    <div class="container-fluid p-3 top-block">
+        <div class="float-left site-title"><a href="/games"><h1 class="font-weight-bold">Game Store</h1></a></div>
+        <div class="float-right">
+            @Html.Action("LoginPatrial", new { controller = "Base", area = "" })
+        </div>
+        <div class="clearfix"></div>
+        <div class="jumbotron position-relative">
+            <button class="btn custom-toggle" type="button" data-toggle="collapse" data-target="#topMenu"><i class="fa fa-bars"></i></button>
+            <div class="btn-group collapse show" id="topMenu">
+                <a href="/games" class="btn btn-outline-warning btn-lg">@GlobalRes.Games</a>
+                <a href="/genres" class="btn btn-outline-warning btn-lg">@GlobalRes.NavGenres</a>
+                <a href="/publishers" class="btn btn-outline-warning btn-lg">@GlobalRes.NavPublishers</a>
+                <a href="/PlatformType/Index" class="btn btn-outline-warning btn-lg">@GlobalRes.NavPlatformTypes</a>
+                <a href="/Shipper/Index" class="btn btn-outline-warning btn-lg">@GlobalRes.NavShippers</a>
+                @if (Context.User.IsInRole("Administrator, Manager, Moderator"))
+                {
+                    <a href="/Order/OrdersHistory" class="btn btn-outline-warning btn-lg">@GlobalRes.NavOrders</a>
+                }
+                <a href="/basket" class="btn btn-outline-warning btn-lg">@GlobalRes.Basket</a>
+            </div>
+            <div class="float-right site-logo">
+                <img src="~/Content/Images/logo.png" width="350" height="180" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row main">
+            @RenderBody()
+        </div>
+        <div class="clearfix"></div>
+        <div class="horizontal-line"></div>
+        <div class="row row__footer-blocks">
+            <div class="col-lg-4">
+                <div class="jumbotron get-in-touch position-relative">
+                    <div class="footer-block__header">
+                        <img src="~/Content/Images/mail.png" width="85" height="60" />
+                        @GlobalRes.GetInTouch
+                    </div>
+                    <form class="form-group">
+                        <label class="font-weight-bold">@GlobalRes.FeedbackName:</label>
+                        <input type="text" class="form-control" /><br /><br />
+                        <label class="font-weight-bold">Email:</label>
+                        <input type="text" class="form-control" /><br /><br />
+                        <label class="font-weight-bold">@GlobalRes.Message:</label>
+                        <textarea class="form-control" style="resize: none;"></textarea>
+                        <input type="submit" class="custom-btn float-right" value="@GlobalRes.Submit" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="jumbotron twitter-updates position-relative">
+                    <div class="footer-block__header">
+                        <img src="~/Content/Images/twitter-logo.png" width="60" height="60" />
+                        @GlobalRes.TwitterUpdates
+                    </div>
+                    <div class="container">
+                        <div class="tweet">
+                            <p>
+                                Sed ut perspiciatis, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+                                facere possimus.
+                            </p>
+                            <small>about 1 hour ago</small>
+                        </div>
+                        <div class="tweet">
+                            <p>
+                                Nemo enim ipsam voluptatem, nam libero tempore, cum soluta nobis est eligendi optio,
+                                cumque nihil impedit.
+                            </p>
+                            <small>about 1 hour ago</small>
+                        </div>
+                        <div class="tweet">
+                            <p>Excepteur sint occaecat cupidatat non proident.</p>
+                            <small>about 1 hour ago</small>
+                        </div>
+                    </div>
+                    <a class="custom-btn float-right">@GlobalRes.FollowUs</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="jumbotron from-blog position-relative">
+                    <div class="footer-block__header">
+                        <img src="~/Content/Images/rss.png" width="60" height="60" />
+                        @GlobalRes.FromBlog
+                    </div>
+                    <div class="container">
+                        <div class="blog-post">
+                            Sed ut perspiciatis, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+                            facere possimus.
+                        </div>
+                        <div class="blog-post">
+                            Nemo enim ipsam voluptatem, nam libero tempore, cum soluta nobis est eligendi optio,
+                            cumque nihil impedit.
+                        </div>
+                        <div class="blog-post">
+                            Et harum quidem rerum facilis est et expedita distinctio, quia voluptas sit, aspernatur
+                            aut odit aut fugit, sed quia consequuntur magni.
+                        </div>
+                        <div class="blog-post">
+                            Itaque earum rerum hic tenetur a sapiente delectus, unde omnis iste natus error sit.
+                        </div>
+                    </div>
+                    <a class="custom-btn float-right">@GlobalRes.VisitBlog</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="horizontal-line"></div>
+        <div class="container-fluid p-5">
+            <div class="row">
+                <div class="col-lg-6">
+                    <span class="footer__copyright">@GlobalRes.Copyright</span><br /><br />
+                </div>
+                <div class="col-lg-3">
+                    <span class="font-weight-bold">@GlobalRes.SiteLinks</span>
+                    <div class="footer__links">
+                        <a href="/games">@GlobalRes.Games</a><br />
+                        <a href="/Genre/Index">@GlobalRes.NavGenres</a><br />
+                        <a href="/publishers">@GlobalRes.NavPublishers</a><br />
+                        <a href="/PlatformType/Index">@GlobalRes.NavPlatformTypes</a><br />
+                        <a href="/Shipper/Index">@GlobalRes.NavShippers</a>
+                    </div><br />
+                </div>
+                <div class="col-lg-3">
+                    <span class="font-weight-bold">@GlobalRes.CompanyInformation</span>
+                    <div class="footer__links">
+                        <a href="">@GlobalRes.AboutUs</a><br />
+                        <a href="">@GlobalRes.Awards</a><br />
+                        <a href="">@GlobalRes.Reviews</a><br />
+                        <a href="">@GlobalRes.Contacts</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/site-script.js")
+    @RenderSection("scripts", required: false)
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $('#errorModDialog').modal('show');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.AddGameViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Edit;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Edit @Model.NameEn</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @using (Html.BeginForm("EditGame", "ManagerGame", FormMethod.Post, new { @class = "form-group", enctype = "multipart/form-data" }))
+    {
+        <div class="row p-3">
+            <div class="col-lg-4">
+                @Html.HiddenFor(Model => Model.Id)
+                @Html.HiddenFor(Model => Model.UploadDate)
+                @Html.HiddenFor(Model => Model.ImageReference)
+                @Html.LabelFor(Model => Model.Key) <br />
+                @Html.EditorFor(Model => Model.Key, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Key)<br /><br />
+                @Html.LabelFor(Model => Model.NameEn) <text>(en)</text><br />
+                @Html.EditorFor(Model => Model.NameEn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.NameEn)<br /><br />
+                @Html.LabelFor(Model => Model.NameRu) <text>(ru)</text><br />
+                @Html.EditorFor(Model => Model.NameRu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.NameRu)<br /><br />
+                @Html.LabelFor(Model => Model.DescriptionEn) <text>(en)</text><br />
+                @Html.TextAreaFor(Model => Model.DescriptionEn, new { @class = "form-control" })
+                @Html.ValidationMessageFor(Model => Model.DescriptionEn)<br /><br />
+                @Html.LabelFor(Model => Model.DescriptionRu) <text>(ru)</text><br />
+                @Html.TextAreaFor(Model => Model.DescriptionRu, new { @class = "form-control" })
+                @Html.ValidationMessageFor(Model => Model.DescriptionRu)<br /><br />
+                @Html.LabelFor(Model => Model.Price)<br />
+                @Html.EditorFor(Model => Model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.Price)<br /><br />
+                @Html.LabelFor(Model => Model.PublishDate)<br />
+                <input type="date" name="PublishDate" value="@Model.PublishDate" class="form-control" />
+                @Html.ValidationMessageFor(Model => Model.PublishDate)<br /><br />
+                @Html.LabelFor(Model => Model.UnitsInStock)<br />
+                @Html.EditorFor(Model => Model.UnitsInStock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.UnitsInStock)<br /><br />
+                @Html.EditorFor(Model => Model.Discontinued)
+                @Html.LabelFor(Model => Model.Discontinued)<br /><br />
+                @Html.ListBox("Genres", Model.GenresList as MultiSelectList, new { @class = "custom-select" })<br /><br />
+                @Html.ListBox("PlatformTypes", Model.PlatformTypesList as MultiSelectList, new { @class = "custom-select" })<br /><br />
+                @Html.DropDownList("PublisherId", Model.PublishersList, GlobalRes.None, new { @class = "custom-select" })<br /><br />
+                <input type="submit" value="@GlobalRes.Edit" class="custom-btn" />
+            </div>
+            <div class="col-lg-8">
+                @Html.Label(GlobalRes.Image)<br />
+                <input type="file" name="uploadImage" />
+            </div>
+        </div>
+    }
+</div>
+<div class="side col-lg-3"></div>

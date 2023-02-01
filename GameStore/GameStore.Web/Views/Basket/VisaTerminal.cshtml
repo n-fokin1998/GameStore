@@ -1,0 +1,51 @@
+﻿@model GameStore.Web.ViewModels.PaymentViewModel
+
+@{
+    ViewBag.Title = GlobalRes.VisaTerminal;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog">@Html.Partial("ConfirmOrder")</div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.VisaTerminal</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div id="errors"></div>
+    <input type="hidden" value="@Model.Successed" id="successStatus" />
+    <span class="font-weight-bold">@GlobalRes.OrderAmount: $</span>@Model.Sum<br /><br />
+    <div class="row">
+        <div class="col-lg-4">
+            @using (Html.BeginForm("VisaTerminal", "Basket", FormMethod.Post))
+            {
+                @Html.HiddenFor(Model => Model.AccountNumber)
+                @Html.HiddenFor(Model => Model.InvoiceNumber)
+                @Html.HiddenFor(Model => Model.ShipperId)
+                @Html.HiddenFor(Model => Model.Date)
+                @Html.HiddenFor(Model => Model.Sum)
+                @Html.HiddenFor(Model => Model.PaymentType)
+                @Html.LabelFor(Model => Model.CardNumber)<br/>
+                @Html.EditorFor(Model => Model.CardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.CardNumber)<br/><br/>
+                @Html.LabelFor(Model => Model.CardHolder)<br/>
+                @Html.EditorFor(Model => Model.CardHolder, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.CardHolder)<br/><br/>
+                @Html.LabelFor(Model => Model.ExpiresDate)<br/>
+                <input type="date" name="ExpiresDate" value="@Model.ExpiresDate" class="form-control" />
+                @Html.ValidationMessageFor(Model => Model.ExpiresDate)<br/><br/>
+                @Html.LabelFor(Model => Model.SecureCode)<br/>
+                @Html.EditorFor(Model => Model.SecureCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.SecureCode)<br/><br/>
+                <input type="submit" value="@GlobalRes.Pay" class="custom-btn" />
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/payment-script.js")
+}

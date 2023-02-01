@@ -1,0 +1,26 @@
+﻿@using System.Threading
+@using GameStore.BusinessLogicLayer.DTO
+@model List<GenreDTO>
+
+@{
+    ViewBag.Title = GlobalRes.NavGenres;
+    @Styles.Render("~/Content/genre-styles.css")
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.GenresOf @ViewBag.GameName</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @foreach (GenreDTO genre in Model)
+    {
+        <a href="/genres/@genre.Id">
+            <span class="base-color genre-title font-weight-bold">
+                @(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? genre.NameEn : genre.NameRu)
+            </span>
+        </a>
+        <br />
+    }
+</div>
+<div class="side col-lg-3"></div>

@@ -1,0 +1,10 @@
+﻿span {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.order, .shipper {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+}

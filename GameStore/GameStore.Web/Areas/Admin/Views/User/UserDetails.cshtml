@@ -1,0 +1,43 @@
+﻿@using GameStore.BusinessLogicLayer.DTO
+@model UserDTO
+
+@{
+    ViewBag.Title = GlobalRes.UserDetails;
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.UserDetails</h2></div>
+        <div class="page-head__content float-right">
+            @Html.ActionLink(GlobalRes.Edit, "EditUser", new {Id = Model.Id, controller = "User" }) |
+            @Html.ActionLink(GlobalRes.Delete, "DeleteUser", new {Id = Model.Id, controller = "User"}, new {@class = "link-admin--delete"})
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <span class="font-weight-bold">Id: </span>@Model.Id<br /><br />
+    <span class="font-weight-bold">@GlobalRes.UserName: </span>  @Model.Name<br /><br />
+    <span class="font-weight-bold">Email: </span>  @Model.Email<br /><br />
+    <span class="font-weight-bold">@GlobalRes.Roles: </span>
+    @if (Model.Roles.Count == 0)
+    {
+        <span>-</span>
+    }
+    else
+    {
+        <br />
+        foreach (RoleDTO role in Model.Roles)
+        {
+            @role.Name<br />
+        }
+    }
+    <br />
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/admin-panel-script.js")
+}

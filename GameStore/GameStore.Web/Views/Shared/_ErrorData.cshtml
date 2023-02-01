@@ -1,0 +1,15 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <h4>Error occured</h4>
+    </div>
+    <div class="modal-body">
+        @if (Context.Session["ErrorMessage"] != null)
+        {
+            <div style="color: red;">@Context.Session["ErrorMessage"].ToString()</div><br />
+            {
+                Context.Session["ErrorMessage"] = null;
+            }
+        }
+        <a href="/games" class="btn btn-info">Ok</a>
+    </div>
+</div>

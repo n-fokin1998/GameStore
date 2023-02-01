@@ -1,0 +1,31 @@
+﻿@using GameStore.BusinessLogicLayer.DTO
+@model IEnumerable<PublisherDTO>
+
+@{ 
+    ViewBag.Title = GlobalRes.NavPublishers;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/catalog-styles.css")
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.NavPublishers</h2></div>
+        <div class="page-head__content float-right">
+            @if (Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GlobalRes.CreatePublisher, "CreatePublisher", new { controller = "ManagerPublisher", area = "Manager" })
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @foreach (PublisherDTO publisher in Model)
+    {
+        <a href="/publishers/@publisher.CompanyName">
+            <div class="content__product">
+                <span class="content__product__title font-weight-bold">@publisher.CompanyName</span>
+            </div>
+        </a>
+    }
+</div>
+<div class="side col-lg-3"></div>

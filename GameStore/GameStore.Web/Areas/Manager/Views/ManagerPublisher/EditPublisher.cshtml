@@ -1,0 +1,35 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.PublisherViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Edit;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Edit</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-3">
+        <div class="col-lg-4">
+            @using (Html.BeginForm("EditPublisher", "ManagerPublisher", FormMethod.Post))
+            {
+                @Html.LabelFor(Model => Model.CompanyName)<br />
+                @Html.EditorFor(Model => Model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.CompanyName)<br /><br />
+                @Html.LabelFor(Model => Model.DescriptionEn) <text>(en)</text><br />
+                @Html.TextAreaFor(Model => Model.DescriptionEn, new { @class = "form-control" })
+                @Html.ValidationMessageFor(Model => Model.DescriptionEn)<br /><br />
+                @Html.LabelFor(Model => Model.DescriptionRu) <text>(ru)</text><br />
+                @Html.TextAreaFor(Model => Model.DescriptionRu, new { @class = "form-control" })
+                @Html.ValidationMessageFor(Model => Model.DescriptionRu)<br /><br />
+                @Html.LabelFor(Model => Model.HomePage)<br />
+                @Html.EditorFor(Model => Model.HomePage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.HomePage)<br /><br />
+                <input type="submit" value="@GlobalRes.Edit" class="custom-btn" />
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>

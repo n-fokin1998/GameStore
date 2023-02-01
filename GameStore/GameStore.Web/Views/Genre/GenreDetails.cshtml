@@ -1,0 +1,51 @@
+﻿@using System.Threading
+@using GameStore.BusinessLogicLayer.DTO;
+@model GenreDTO
+
+@{
+    ViewBag.Title = GlobalRes.GenreDetails;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.GenreDetails</h2></div>
+        <div class="page-head__content float-right">
+            @if (Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GlobalRes.Edit, "EditGenre", new { id = Model.Id, controller = "ManagerGenre", area = "Manager" }, new { @class = "link-genre--edit" }) <text>|</text>
+                @Html.ActionLink(GlobalRes.Delete, "DeleteGenre", new { Id = Model.Id, controller = "ManagerGenre", area = "Manager" }, new { @class = "link-genre--delete" })
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <span class="font-weight-bold">Id: </span>@Model.Id<br /><br />
+    <span class="font-weight-bold">@GlobalRes.Name: </span>  @(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.NameEn : Model.NameRu)<br /><br />
+    @if (Model.ParentGenre != null)
+    {
+        <span class="font-weight-bold">@GlobalRes.ParentGenre: </span>@(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.ParentGenre.NameEn : Model.ParentGenre.NameRu)<br /><br />
+    }
+    <span class="font-weight-bold">@GlobalRes.Games: </span>
+    @if (Model.Games.Count == 0)
+    {
+        <span class="font-weight-bold">@GlobalRes.NoItems</span>
+    }
+    else
+    {
+        <br />
+        foreach (GameDTO game in Model.Games)
+        {
+            @(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? game.NameEn : game.NameRu)<br />
+        }
+    }
+    <br />
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/genre-script.js")
+}

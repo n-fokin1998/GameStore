@@ -1,0 +1,50 @@
+@using System.Threading
+@using GameStore.Web.ViewModels
+@model CommentViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Comments;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/comment-styles.css")
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.CommentsFor @(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.Game.NameEn : Model.Game.NameRu)</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="comments">
+        @Html.Partial("_TreeComments", Model)
+    </div>
+    @if ((!Context.User.Identity.IsAuthenticated || !Context.User.IsInRole("Administrator, Manager")) && !Model.IsGameDeleted)
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <span>@GlobalRes.NewComment:</span><br/><br/>
+                @using (Html.BeginForm("WriteComment", "Comment", FormMethod.Post))
+                {
+                    <input type="hidden" name="key" value="@Model.Game.Key"/>
+                    <input type="hidden" name="ParentCommentId" id="ParentCommentId"/>
+                    <input type="hidden" name="QuoteCommentId" id="QuoteCommentId"/>
+                    @Html.Label(GlobalRes.CommentName)<br/>
+                    <input type="text" id="Name" name="Name" value="@Model.Name" class="form-control"/>
+                    @Html.ValidationMessageFor(Model => Model.Name)<br/><br/>
+                    @Html.Label(GlobalRes.Comment)<br/>
+                    <div class="block--comment-quote"></div>
+                    <textarea class="span--comment-editor form-control" contenteditable="true" name="Body">@Model.Body</textarea>
+                    @Html.ValidationMessageFor(Model => Model.Body)<br/><br/>
+                    <input type="submit" value="@GlobalRes.CreateButton" class="form-comment__submit custom-btn"/>
+                }
+            </div>
+        </div>
+    }
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/comments-script.js")
+}

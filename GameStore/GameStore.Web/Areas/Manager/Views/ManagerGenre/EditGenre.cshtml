@@ -1,0 +1,31 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.GenreViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Edit;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Edit</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-3">
+        <div class="col-lg-4">
+            @using (Html.BeginForm("EditGenre", "ManagerGenre", FormMethod.Post, new { @class = "form-group" }))
+            {
+                @Html.LabelFor(Model => Model.NameRu) <text>(ru)</text><br />
+                @Html.EditorFor(Model => Model.NameRu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.NameRu)<br /><br />
+                @Html.LabelFor(Model => Model.NameEn) <text>(en)</text><br />
+                @Html.EditorFor(Model => Model.NameEn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.NameEn)<br /><br />
+                <label>@GlobalRes.ParentGenre: </label>
+                @Html.DropDownListFor(Model => Model.ParentGenreId, (IEnumerable<SelectListItem>)ViewBag.Genres, GlobalRes.None, new { @class = "custom-select" })<br /><br />
+                <input type="submit" value="@GlobalRes.Edit" class="custom-btn" />
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>

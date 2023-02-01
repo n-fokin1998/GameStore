@@ -1,0 +1,36 @@
+﻿@using System.Globalization
+@model GameStore.Web.ViewModels.PaymentViewModel
+
+@{
+    ViewBag.Title = GlobalRes.IBoxTerminal;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog">@Html.Partial("ConfirmOrder")</div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.IBoxTerminal</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <input type="hidden" value="@Model.Successed" id="successStatus" />
+    <span class="font-weight-bold">@GlobalRes.AccountNumber: </span>@Model.AccountNumber<br /><br />
+    <span class="font-weight-bold">@GlobalRes.InvoiceNumber: </span>@Model.InvoiceNumber<br /><br />
+    <span class="font-weight-bold">@GlobalRes.OrderAmount: $</span>@Model.Sum<br /><br />
+    @using (Html.BeginForm("IBoxTerminal", "Basket", FormMethod.Post))
+    {
+        @Html.HiddenFor(Model => Model.AccountNumber)
+        @Html.HiddenFor(Model => Model.InvoiceNumber)
+        @Html.HiddenFor(Model => Model.Date)
+        @Html.HiddenFor(Model => Model.PaymentType)
+        @Html.HiddenFor(Model => Model.ShipperId)
+        <input type="submit" value="@GlobalRes.Pay" class="custom-btn" />
+    }
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/payment-script.js")
+}

@@ -1,0 +1,64 @@
+﻿@using GameStore.BusinessLogicLayer.Domain
+@using GameStore.BusinessLogicLayer.DTO
+@model Basket
+
+@{
+    ViewBag.Title = GlobalRes.Basket;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/basket-styles.css")
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Basket</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @if (Model.GetItems().Any())
+    {
+        <span>@Html.ActionLink(GlobalRes.MakeOrderButton, "MakeOrder", new {controller = "Basket"}, new { @class = "custom-btn btn-lg m-5" })</span><br /><br />
+    }
+    <table>
+        <thead>
+        <tr>
+            <td>@GlobalRes.Product</td>
+            <td>@GlobalRes.Quantity</td>
+            <td>@GlobalRes.Price</td>
+        </tr>
+        </thead>
+        <tbody>
+        @if (!Model.GetItems().Any())
+        {
+            <tr><td colspan="3">@GlobalRes.NoItems</td></tr>
+        }
+        else
+        {
+            foreach (OrderDetailsDTO line in Model.GetItems())
+            {
+                <tr>                
+                    <td>@line.GameName</td>
+                    <td>@line.Quantity</td>
+                    <td>$@line.Price.ToString("0.00")</td>
+                </tr>
+            }
+        }
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2" class="void"></td>
+            <td>
+                @GlobalRes.OrderAmount:
+                @if (Model.GetItems().Count() != 0)
+                {
+                    <text>$</text>@Model.CalculateTotalValue().ToString("0.00")
+                }
+                else
+                {
+                    <text>-</text>
+                }
+            </td>
+        </tr>
+        </tfoot>
+    </table><br />
+</div>
+<div class="side col-lg-3"></div>

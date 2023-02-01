@@ -1,0 +1,58 @@
+﻿@using GameStore.Web.ViewModels
+@using GameStore.BusinessLogicLayer.DTO
+@model IEnumerable<OrderHistoryViewModel>
+
+@{
+    ViewBag.Title = GlobalRes.OrderHistory;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/order-history-styles.css")
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.OrderHistory</h2></div>
+        <div class="page-head__content float-right">
+            @if (Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GlobalRes.OrderManagement, "Index", new { controller = "ManagerOrder", area = "Manager" })
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    @using (Html.BeginForm("OrdersHistory", "Order", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <label>@GlobalRes.From: &nbsp;</label>
+        <input type="date" name="from" class="form-control" />
+        <label>&nbsp; @GlobalRes.To: &nbsp;</label>
+        <input type="date" name="to" class="form-control" />
+        <input type="submit" value="@GlobalRes.Search" class="custom-btn m-2" />
+        @Html.ValidationMessage("from")
+    }
+    <br /><br />
+    @foreach (OrderHistoryViewModel order in Model)
+    {
+        <div class="order">
+            <span class="font-weight-bold">Id:&nbsp;</span>@order.Id<br />
+            <span class="font-weight-bold">@GlobalRes.CustomerId:&nbsp;</span>@order.CustomerId<br />
+            <span class="font-weight-bold">@GlobalRes.ShipperId:&nbsp;</span>@order.ShipperId<br />
+            <span class="font-weight-bold">@GlobalRes.Date:&nbsp;</span>@order.Date<br />
+            @if (order.OrderDetails != null && order.OrderDetails.Count != 0)
+            {
+                <span class="font-weight-bold">@GlobalRes.OrderDetails:</span><br />
+                <ul>
+                    @foreach (OrderDetailsDTO od in order.OrderDetails)
+                    {
+                        <span class="font-weight-bold">@GlobalRes.GameId:&nbsp;</span>@od.GameId
+                        <br />
+                        <span class="font-weight-bold">@GlobalRes.Quantity:&nbsp;</span>@od.Quantity
+                        <br />
+                        <span class="font-weight-bold">@GlobalRes.Price:&nbsp;</span>@od.Price
+                        <br />
+                    }
+                </ul>
+            }
+        </div><br />
+    }
+</div>
+<div class="side col-lg-3"></div>

@@ -1,0 +1,29 @@
+﻿@model GameStore.Web.Areas.Manager.ViewModels.PlatformTypeViewModel
+
+@{
+    ViewBag.Title = GlobalRes.Edit;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.Edit</h2></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <div class="row p-3">
+        <div class="col-lg-4">
+            @using (Html.BeginForm("EditPlatformType", "ManagerPlatformType", FormMethod.Post, new { @class = "form-group" }))
+            {
+                @Html.LabelFor(Model => Model.TypeRu) <text>(ru)</text><br />
+                @Html.EditorFor(Model => Model.TypeRu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.TypeRu)<br /><br />
+                @Html.LabelFor(Model => Model.TypeEn) <text>(en)</text><br />
+                @Html.EditorFor(Model => Model.TypeEn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(Model => Model.TypeEn)<br /><br />
+                <input type="submit" value="@GlobalRes.Edit" class="custom-btn" />
+            }
+        </div>
+    </div>
+</div>
+<div class="side col-lg-3"></div>

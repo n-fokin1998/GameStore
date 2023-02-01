@@ -1,0 +1,47 @@
+﻿@using System.Threading
+@using GameStore.BusinessLogicLayer.DTO
+@model PlatformTypeDTO
+
+@{
+    ViewBag.Title = GlobalRes.PlatformTypeDetails;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="p-3 content col-lg-9">
+    <div class="page-head">
+        <div class="page-head__title float-left"><h2>@GlobalRes.PlatformTypeDetails</h2></div>
+        <div class="page-head__content float-right">
+            @if (Context.User.IsInRole("Manager"))
+            {
+                @Html.ActionLink(GlobalRes.Edit, "EditPlatformType", new { id = Model.Id, controller = "ManagerPlatformType", area = "Manager" }, new { @class = "link-platform-type--edit" }) <text>|</text>
+                @Html.ActionLink(GlobalRes.Delete, "DeletePlatformType", new { Id = Model.Id, controller = "ManagerPlatformType", area = "Manager" }, new { @class = "link-platform-type--delete" })
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="horizontal-line"></div><br /><br />
+    <span class="font-weight-bold">Id: </span>@Model.Id<br /><br />
+    <span class="font-weight-bold">@GlobalRes.Type: </span>@(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? Model.TypeEn : Model.TypeRu)<br /><br />
+    <span class="font-weight-bold">@GlobalRes.Games: </span>
+    @if (Model.Games.Count == 0)
+    {
+        <span class="font-weight-bold">@GlobalRes.NoItems</span>
+    }
+    else
+    {
+        <br />
+        foreach (GameDTO game in Model.Games)
+        {
+            @(Thread.CurrentThread.CurrentCulture.Name.StartsWith("en") ? game.NameEn : game.NameRu)<br />
+        }
+    }
+    <br />
+</div>
+<div class="side col-lg-3"></div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/platform-type-script.js")
+}
